@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavHome from '../../components/common/NavHome';
 import FooterHome from '../../components/common/FooterHome';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -8,7 +8,7 @@ import ToastContainer from '../../components/common/ToastContainer';
 import Loading from '../../components/common/Loading';
 
 const RegisterPage = () => {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const { addToast, toasts, removeToast } = useToast();
 	const [formData, setFormData] = useState({
 		name: '',
@@ -92,7 +92,7 @@ const RegisterPage = () => {
 					confirmPassword: ''
 				});
 				setErrors({});
-				// navigate('/login');
+				navigate('/login');
 			} catch (error) {
 				addToast('Error al registrar:', error, 'error');
 			}

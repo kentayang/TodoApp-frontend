@@ -49,10 +49,20 @@ export const useAuthStore = create(
         register: async (name, email, password, confirmPassword) => {
           set({ isLoading: true, error: null });
           try {
-            await register(name, email, password, confirmPassword);
-            set({ isLoading: false, error: null });
+            const response = await register(name, email, password, confirmPassword);
+            set({
+              user: response.user,
+              isLoggedIn: true,
+              isLoading: false,
+              error: null,
+            });
           } catch (error) {
-            set({ isLoading: false, error: error.message });
+            set({
+              user: null,
+              isLoggedIn: false,
+              isLoading: false,
+              error: error.message,
+            });
           }
         },
 

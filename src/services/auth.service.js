@@ -6,6 +6,7 @@ export const login = async (email, password) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({ email, password }),
   });
   if (!response.ok) {
@@ -18,6 +19,7 @@ export const login = async (email, password) => {
 export const logout = async () => {
   const response = await fetch(`${API_URL}/auth/logout`, {
     method: "POST",
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -34,6 +36,7 @@ export const register = async (name, email, password, confirmPassword) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({ name, email, password, confirmPassword }),
   });
   if (!response.ok) {
@@ -59,6 +62,7 @@ export const loginWithGoogle = async (idToken) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({ idToken }),
   });
   if (!response.ok) {

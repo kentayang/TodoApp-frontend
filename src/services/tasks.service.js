@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getTasks = async () => {
-  const response = await fetch(`${API_URL}/tasks`, {
+export const getTasks = async (userId) => {
+  const response = await fetch(`${API_URL}/tasks/${userId}`, {
     credentials: "include",
   });
   if (response.status === 401 || response.status === 403) {
@@ -13,8 +13,8 @@ export const getTasks = async () => {
   return response.json();
 };
 
-export const createTask = async (task) => {
-  const response = await fetch(`${API_URL}/tasks`, {
+export const createTask = async (userId, task) => {
+  const response = await fetch(`${API_URL}/tasks/${userId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,14 +29,14 @@ export const createTask = async (task) => {
   return response.json();
 };
 
-export const updateTask = async (task) => {
-  const response = await fetch(`${API_URL}/tasks/${task.id}`, {
+export const updateTask = async (userId, taskId, completed) => {
+  const response = await fetch(`${API_URL}/tasks/${userId}/${taskId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify(task),
+    body: JSON.stringify({ completed }),
   });
   if (!response.ok) {
     const error = await response.json();
@@ -45,8 +45,8 @@ export const updateTask = async (task) => {
   return response.json();
 };
 
-export const deleteTask = async (id) => {
-  const response = await fetch(`${API_URL}/tasks/${id}`, {
+export const deleteTask = async (userId, taskId) => {
+  const response = await fetch(`${API_URL}/tasks/${userId}/${taskId}`, {
     method: "DELETE",
     credentials: "include",
   });

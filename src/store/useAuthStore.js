@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import { persist, createJSONStorage, devtools } from "zustand/middleware";
-import { login, logout, getUser, register } from "../services/auth.service";
+import {
+  login,
+  logout,
+  getUser,
+  register,
+  loginWithGoogle,
+} from "../services/auth.service";
 
 const initialState = {
   user: null,
@@ -49,7 +55,32 @@ export const useAuthStore = create(
         register: async (name, email, password, confirmPassword) => {
           set({ isLoading: true, error: null });
           try {
-            const response = await register(name, email, password, confirmPassword);
+            const response = await register(
+              name,
+              email,
+              password,
+              confirmPassword
+            );
+            set({
+              user: response.user,
+              isLoggedIn: true,
+              isLoading: false,
+              error: null,
+            });
+          } catch (error) {
+            set({
+              user: null,
+              isLoggedIn: false,
+              isLoading: false,
+              error: error.message,
+            });
+          }
+        },
+
+        loginWithGoogle: async (idToken) => {
+          set({ isLoading: true, error: null });
+          try {
+            const response = await loginWithGoogle(idToken);
             set({
               user: response.user,
               isLoggedIn: true,
